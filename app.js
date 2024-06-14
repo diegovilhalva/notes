@@ -1,6 +1,7 @@
 import express from "express"
 import expressLayouts from "express-ejs-layouts"
 import dotenv from  "dotenv"
+import mainRoutes from "./server/routes/index.js"
 dotenv.config()
 
 const app = express()
@@ -20,9 +21,9 @@ app.set('layout','./layouts/main')
 
 app.set('view engine','ejs')
 
-app.get('/',(req,res) => {
-    res.render('index')
-})
+// Router
+
+app.use('/',mainRoutes)
 
 app.listen(port,() => {
     console.log(`servidor rodando na porta ${port}`)
