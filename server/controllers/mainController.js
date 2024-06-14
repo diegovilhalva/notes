@@ -5,3 +5,12 @@ export const homePage = async (req,res) => {
     }
     res.render('index',locals)
 }
+
+
+export const about = async (req,res) => {
+    const locals  = {
+        title:'Notes - Sobre ',
+        description:'Crie suas notas grátis'
+    }
+    res.render('about',locals)
+}
