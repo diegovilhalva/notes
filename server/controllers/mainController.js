@@ -3,7 +3,10 @@ export const homePage = async (req,res) => {
         title:'Notes',
         description:'Crie suas notas grátis'
     }
-    res.render('index',locals)
+    res.render('index',{
+        locals,
+        layout:'../views/layouts/front-page'
+    })
 }
 
 
