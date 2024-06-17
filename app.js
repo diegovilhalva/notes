@@ -24,6 +24,10 @@ app.set('view engine','ejs')
 
 app.use('/',mainRoutes)
 
+app.get('*',(req,res) => {
+    res.status(404).render('404')
+})
+
 app.listen(port,() => {
     console.log(`servidor rodando na porta ${port}`)
 })
