@@ -2,6 +2,7 @@ import express from "express"
 import expressLayouts from "express-ejs-layouts"
 import dotenv from  "dotenv"
 import mainRoutes from "./server/routes/index.js"
+import dashboardRoutes from "./server/routes/dashboard.js"
 dotenv.config()
 
 const app = express()
@@ -20,10 +21,10 @@ app.use(expressLayouts)
 app.set('layout','./layouts/main')
 app.set('view engine','ejs')
 
-// Router
+// Routes
 
 app.use('/',mainRoutes)
-
+app.use('/dashboard',dashboardRoutes)
 app.get('*',(req,res) => {
     res.status(404).render('404')
 })
