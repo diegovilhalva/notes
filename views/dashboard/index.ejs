@@ -9,27 +9,61 @@
         </div>
     </div>
     <div class="row">
-        <% if (notes.length > 0) { for(let i=0; i < notes.length; i++) { %>
+        <% if (notes.length> 0) { for(let i=0; i < notes.length; i++) { %>
                 <div class="col-sm mb-4">
                     <div class="card border-primary" style="min-height: 210px;">
                         <a href="/dashboard/item/<%= notes[i]._id %> " class="card-body text-decoration-none">
-                            <h5 class="card-title"><%= notes[i].title %></h5>
-                            <p class="card-text"><%= notes[i].body %></p>
+                            <h5 class="card-title">
+                                <%= notes[i].title %>
+                            </h5>
+                            <p class="card-text">
+                                <%= notes[i].body %>
+                            </p>
                         </a>
                     </div>
                 </div>
-        <% }}else { %>
-            <div class="row">
-                <div class="col-3">
-                    <img src="/img/human-3.svg" alt="Human pointing hand toward a create button">
-                </div>
-                <div class="col mt-md-4">
-                    <h2>Ainda não notas</h2>
-                    <h4>
-                        <a href="/dashboard/add">Crie sua primeira nota</a>
-                    </h4>
-                </div>
-            </div>
-        <% } %> 
+                <% }}else { %>
+                    <div class="row">
+                        <div class="col-3">
+                            <img src="/img/human-3.svg" alt="Human pointing hand toward a create button">
+                        </div>
+                        <div class="col mt-md-4">
+                            <h2>Ainda não notas</h2>
+                            <h4>
+                                <a href="/dashboard/add">Crie sua primeira nota</a>
+                            </h4>
+                        </div>
+                    </div>
+                    <% } %>
     </div>
+    <% if (notes.length> 0) { %>
+        <nav class="" aria-label="Paginação">
+            <ul class="pagination justify-content-center mt-5">
+                <% if(current == 1) { %>
+                  <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+                <% } else { %>
+                  <li class="page-item"><a class="page-link" href="/dashboard">Primeira</a></li>
+                <% }  %>
+                <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                <% if (i !== 1 ) { %>
+                  <li class="page-item"><a class="page-link" href="#">...</a></li>
+                <% } %>
+                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                  <% if(i == current ) { %>
+                    <li class="page-item"><a class="page-link" href="#"><%= i %></a></li>
+                  <% } else { %>
+                    <li class="page-item"><a class="page-link" href="/dashboard/?page=<%= i %>"><%= i %></a></li>
+                  <% } %>
+                  <% if(i == Number(current) + 4 && i < pages) { %>
+                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                  <% } %>
+                <% } %>
+                <% if (current == pages) { %>
+                    <li class="page-item disabled"><a class="page-link">Última</a></li>
+                <% } else { %>
+                    <li class="page-item"><a href="/dashboard/?page=<%= pages %>" class="page-link">Last</a></li>
+                <% } %>
+              </ul>
+        </nav>
+        <% } %>
 </div>
