@@ -45,3 +45,35 @@ export const dashboard = async (req, res) => {
 
 
 }
+
+export const viewNote = async (req,res) => {
+    const {id} = req.params
+   
+
+    try {
+        const note  = await Note.findById(id).where({user:req.user.id})
+        
+        if (note) {
+            const locals = {
+                title: `${note.title} -  Notes`,
+                description: 'Crie suas notas grátis'
+            }
+            res.render('dashboard/view-notes', {
+                locals,
+                layout: "../views/layouts/dashboard",
+                note,
+                noteID:req.params.id
+            });
+            
+        }else{
+            res.render('404')
+        }
+    } catch (error) {
+        res.render('404')
+    }
+}
+
+
+export const updateNote = async (req,res) => {
+
+}
