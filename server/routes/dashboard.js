@@ -1,9 +1,10 @@
 import express from "express"
 import { dashboard } from "../controllers/dashboardController.js"
+import { isLoggedIn } from "../middleware/checkAuth.js"
 
 const router = express.Router()
 
-router.get('/',dashboard)
+router.get('/',isLoggedIn,dashboard)
 
 
 
