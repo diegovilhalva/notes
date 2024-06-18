@@ -1,1 +1,35 @@
-<h1>Pinel de controle</h1>
+<div class="container-fluid pb-5 mb-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="">Olá, <%= userName %>
+            </h1>
+        </div>
+        <div class="col text-end">
+            <a href="/dashboard/add" class="btn btn-primary">Criar Nota</a>
+        </div>
+    </div>
+    <div class="row">
+        <% if (notes.length > 0) { for(let i=0; i < notes.length; i++) { %>
+                <div class="col-sm mb-4">
+                    <div class="card border-primary" style="min-height: 210px;">
+                        <a href="/dashboard/item/<%= notes[i]._id %> " class="card-body text-decoration-none">
+                            <h5 class="card-title"><%= notes[i].title %></h5>
+                            <p class="card-text"><%= notes[i].body %></p>
+                        </a>
+                    </div>
+                </div>
+        <% }}else { %>
+            <div class="row">
+                <div class="col-3">
+                    <img src="/img/human-3.svg" alt="Human pointing hand toward a create button">
+                </div>
+                <div class="col mt-md-4">
+                    <h2>Ainda não notas</h2>
+                    <h4>
+                        <a href="/dashboard/add">Crie sua primeira nota</a>
+                    </h4>
+                </div>
+            </div>
+        <% } %> 
+    </div>
+</div>
