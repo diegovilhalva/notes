@@ -26,8 +26,8 @@ export const dashboard = async (req, res) => {
             .limit(perPage)
             .exec();
 
-        const count = await Note.countDocuments({user:new mongoose.Types.ObjectId(req.user.id)});
-       
+        const count = await Note.countDocuments({ user: new mongoose.Types.ObjectId(req.user.id) });
+
         res.render('dashboard/index', {
             userName: req.user.firstName,
             locals,
@@ -46,13 +46,13 @@ export const dashboard = async (req, res) => {
 
 }
 
-export const viewNote = async (req,res) => {
-    const {id} = req.params
-   
+export const viewNote = async (req, res) => {
+    const { id } = req.params
+
 
     try {
-        const note  = await Note.findById(id).where({user:req.user.id})
-        
+        const note = await Note.findById(id).where({ user: req.user.id })
+
         if (note) {
             const locals = {
                 title: `${note.title} -  Notes`,
@@ -62,10 +62,10 @@ export const viewNote = async (req,res) => {
                 locals,
                 layout: "../views/layouts/dashboard",
                 note,
-                noteID:req.params.id
+                noteID: req.params.id
             });
-            
-        }else{
+
+        } else {
             res.render('404')
         }
     } catch (error) {
@@ -74,6 +74,23 @@ export const viewNote = async (req,res) => {
 }
 
 
-export const updateNote = async (req,res) => {
+export const updateNote = async (req, res) => {
+    try {
+        await Note.findOneAndUpdate(
+            { _id: req.params.id },
+            { title: req.body.title, body: req.body.body, updatedAt: Date.now() }
+        ).where({ user: req.user.id });
+        res.redirect("/dashboard");
+    } catch (error) {
+        console.log(error)
+    }
+}
 
+export const deleteNote = async (req,res) => {
+    try {
+        await Note.deleteOne({_id:req.params.id}).where({user:req.user.id})
+        res.redirect('/dashboard')
+    } catch (error) {
+        console.log(error)
+    }
 }

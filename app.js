@@ -1,6 +1,7 @@
 import dotenv from  "dotenv"
 import express from "express"
 import expressLayouts from "express-ejs-layouts"
+import methodOverride from "method-override"
 import mainRoutes from "./server/routes/index.js"
 import dashboardRoutes from "./server/routes/dashboard.js"
 import authRoutes from "./server/routes/auth.js"
@@ -22,13 +23,14 @@ app.use(session({
     store:MongoStore.create({
         mongoUrl:process.env.MONGODB_URI
     }),
-    cookie:{maxAge:new Date(Date.now() + (604800000))}
+    cookie:{maxAge:604800000}
 
 }))
 
 
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(methodOverride("_method"))
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
