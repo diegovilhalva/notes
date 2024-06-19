@@ -73,6 +73,29 @@ export const viewNote = async (req, res) => {
     }
 }
 
+export const addNote = async (req, res) => {
+    const locals = {
+        title: 'Crie sua nota - Notes',
+        description: 'Crie suas notas grátis'
+    }
+    res.render('dashboard/add', {
+        locals,
+        layout: "../views/layouts/dashboard",
+    });
+}
+
+export const saveNote = async (req, res) => {
+    try {
+        req.body.user = req.user.id
+        const note = await Note.create(req.body)
+        if (note) {
+            res.redirect('/dashboard')
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 export const updateNote = async (req, res) => {
     try {
@@ -86,10 +109,42 @@ export const updateNote = async (req, res) => {
     }
 }
 
-export const deleteNote = async (req,res) => {
+export const deleteNote = async (req, res) => {
     try {
-        await Note.deleteOne({_id:req.params.id}).where({user:req.user.id})
+        await Note.deleteOne({ _id: req.params.id }).where({ user: req.user.id })
         res.redirect('/dashboard')
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const search = async (req, res) => {
+    try {
+        res.render('/dashboard/search', {
+            searchResults: '',
+            layout: '../views/layout/dashboard'
+        })
+    } catch (error) {
+
+    }
+}
+
+export const searchSubmit = async (req, res) => {
+    try {
+        let searchTerm = req.body.searchTerm
+        const searchNoSpecialChars = searchTerm.replace(/[^a-zA-Z0-9]/g, "")
+        const searchResults = await Note.find({
+            $or: [
+                { title: { $regex: new RegExp(searchNoSpecialChars, 'i') } },
+                { body: { $regex: new RegExp(searchNoSpecialChars, 'i') } }
+            ]
+        }).where({user:req.user.id})
+
+        res.render('dashboard/search',{
+            searchResults,
+            layout:'../views/layouts/dashboard'
+        })
+
     } catch (error) {
         console.log(error)
     }
