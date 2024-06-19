@@ -15,8 +15,8 @@ This is a simple web application for taking and managing notes. It's built using
 ## Installation
 1. Clone the repository:
    ```
-   git clone 
-   cd notes https://github.com/diegovilhalva/notes.git
+   git clone https://github.com/diegovilhalva/notes
+   cd notes 
    ```
 2. Install dependencies:
    ```
